@@ -11,7 +11,8 @@ export const BEHAVIOR_ITEMS = [
   { key: 'verbal_communication', label: '言葉で伝えることが苦手' },
   { key: 'reading_difficulty', label: '読むことが苦手' },
   { key: 'writing_difficulty', label: '書くことが苦手' },
-  { key: 'motor_clumsiness', label: '運動・不器用さ' },
+  { key: 'motor_clumsiness', label: '運動が苦手' },
+  { key: 'clumsiness', label: '不器用さ' },
   { key: 'sleep_issues', label: '睡眠' },
   { key: 'eating_issues', label: '食事' },
 ] as const
