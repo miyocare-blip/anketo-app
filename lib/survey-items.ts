@@ -17,13 +17,14 @@ export const BEHAVIOR_ITEMS = [
 ] as const
 
 export const BODY_ITEMS = [
-  { key: 'bumping', label: 'ぶつかりやすい・転びやすい' },
+  { key: 'bumping', label: 'ぶつかりやすい' },
+  { key: 'falling', label: '転びやすい' },
   { key: 'posture_concern', label: '姿勢が気になる' },
-  { key: 'body_stiffness', label: '体が硬い' },
-  { key: 'body_tension', label: '体が緊張しやすい' },
-  { key: 'fatigue_body', label: '疲れやすい（身体面）' },
+  { key: 'body_stiffness', label: '身体が硬い' },
+  { key: 'body_tension', label: '身体が緊張しやすい' },
+  { key: 'fatigue_body', label: '疲れやすい' },
   { key: 'waking_difficulty', label: '朝起きにくい' },
-  { key: 'color_changes', label: '顔色の変化がある' },
+  { key: 'color_changes', label: '偏食がある' },
   { key: 'constipation', label: '便秘がある' },
 ] as const
 
