@@ -37,11 +37,8 @@ export default function DashboardPage() {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [exporting, setExporting] = useState(false)
 
-  const fetchResponses = useCallback(async (childName?: string) => {
-    const url = childName
-      ? `/api/responses?child_name=${encodeURIComponent(childName)}`
-      : '/api/responses'
-    const res = await fetch(url)
+  const fetchResponses = useCallback(async () => {
+    const res = await fetch('/api/responses')
     if (res.status === 401) {
       router.push('/admin')
       return
@@ -52,8 +49,8 @@ export default function DashboardPage() {
   }, [router])
 
   useEffect(() => {
-    fetchResponses(selectedChild ?? undefined)
-  }, [selectedChild, fetchResponses])
+    fetchResponses()
+  }, [fetchResponses])
 
   const childNames = [...new Set(responses.map(r => r.child_name))].sort()
 
