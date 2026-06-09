@@ -102,20 +102,20 @@ export default function SurveyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-pink-50">
-      <div className="bg-pink-300 text-white px-4 py-5 sticky top-0 z-10 shadow-sm">
+    <div className="min-h-screen bg-sky-50">
+      <div className="bg-sky-300 text-white px-4 py-5 sticky top-0 z-10 shadow-sm">
         <h1 className="text-lg font-bold text-center">保護者アンケート</h1>
         <div className="flex justify-center gap-1 mt-2">
           {[1, 2, 3, 4].map(n => (
             <div
               key={n}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                n <= step ? 'bg-white w-8' : 'bg-pink-200 w-4'
+                n <= step ? 'bg-white w-8' : 'bg-sky-200 w-4'
               }`}
             />
           ))}
         </div>
-        <p className="text-center text-pink-100 text-xs mt-1">ステップ {step} / 4</p>
+        <p className="text-center text-sky-100 text-xs mt-1">ステップ {step} / 4</p>
       </div>
 
       <div className="max-w-lg mx-auto px-4 py-6">
@@ -123,8 +123,8 @@ export default function SurveyPage() {
         {step === 1 && (
           <div>
             <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
-              <h2 className="text-base font-bold text-pink-400 mb-4 flex items-center gap-2">
-                <span className="bg-pink-100 text-pink-400 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">1</span>
+              <h2 className="text-base font-bold text-sky-500 mb-4 flex items-center gap-2">
+                <span className="bg-sky-100 text-sky-500 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">1</span>
                 お子さんについて
               </h2>
               <div className="space-y-4">
@@ -137,7 +137,7 @@ export default function SurveyPage() {
                     value={childName}
                     onChange={e => setChildName(e.target.value)}
                     placeholder="例：山田 太郎"
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100"
                   />
                 </div>
                 <div className="flex gap-3">
@@ -150,7 +150,7 @@ export default function SurveyPage() {
                       placeholder="例：8"
                       min="1"
                       max="20"
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100"
                     />
                   </div>
                   <div className="flex-1">
@@ -160,7 +160,7 @@ export default function SurveyPage() {
                       value={childGrade}
                       onChange={e => setChildGrade(e.target.value)}
                       placeholder="例：小2"
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100"
                     />
                   </div>
                 </div>
@@ -171,7 +171,7 @@ export default function SurveyPage() {
                     value={diagnosis}
                     onChange={e => setDiagnosis(e.target.value)}
                     placeholder="例：ASD、ADHD など"
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100"
                   />
                 </div>
                 <div>
@@ -181,7 +181,7 @@ export default function SurveyPage() {
                     onChange={e => setCurrentSupport(e.target.value)}
                     placeholder="例：週2回の言語療法、放課後デイサービス など"
                     rows={3}
-                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 resize-none"
+                    className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 resize-none"
                   />
                 </div>
               </div>
@@ -193,7 +193,7 @@ export default function SurveyPage() {
                 setError('')
                 setStep(2)
               }}
-              className="w-full bg-pink-300 text-white rounded-2xl py-4 font-bold text-base shadow-sm hover:bg-pink-400 active:scale-95 transition-all"
+              className="w-full bg-sky-300 text-white rounded-2xl py-4 font-bold text-base shadow-sm hover:bg-sky-400 active:scale-95 transition-all"
             >
               次へ進む →
             </button>
@@ -203,8 +203,8 @@ export default function SurveyPage() {
         {step === 2 && (
           <div>
             <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
-              <h2 className="text-base font-bold text-pink-400 mb-1 flex items-center gap-2">
-                <span className="bg-pink-100 text-pink-400 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">2</span>
+              <h2 className="text-base font-bold text-sky-500 mb-1 flex items-center gap-2">
+                <span className="bg-sky-100 text-sky-500 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">2</span>
                 お子さんの得意なこと
               </h2>
               <p className="text-xs text-gray-400 mb-4 ml-9">思いつくままに自由にお書きください</p>
@@ -223,7 +223,7 @@ export default function SurveyPage() {
                       onChange={e => setter(e.target.value)}
                       placeholder={placeholder}
                       rows={2}
-                      className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 resize-none"
+                      className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 resize-none"
                     />
                   </div>
                 ))}
@@ -238,7 +238,7 @@ export default function SurveyPage() {
               </button>
               <button
                 onClick={() => setStep(3)}
-                className="flex-[2] bg-pink-300 text-white rounded-2xl py-4 font-bold text-base shadow-sm hover:bg-pink-400 active:scale-95 transition-all"
+                className="flex-[2] bg-sky-300 text-white rounded-2xl py-4 font-bold text-base shadow-sm hover:bg-sky-400 active:scale-95 transition-all"
               >
                 次へ進む →
               </button>
@@ -249,8 +249,8 @@ export default function SurveyPage() {
         {step === 3 && (
           <div>
             <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
-              <h2 className="text-base font-bold text-pink-400 mb-1 flex items-center gap-2">
-                <span className="bg-pink-100 text-pink-400 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">3</span>
+              <h2 className="text-base font-bold text-sky-500 mb-1 flex items-center gap-2">
+                <span className="bg-sky-100 text-sky-500 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">3</span>
                 現在気になっていること
               </h2>
               <p className="text-xs text-gray-400 mb-4 ml-9">1（気にならない）〜 5（とても気になる）で教えてください</p>
@@ -301,7 +301,7 @@ export default function SurveyPage() {
                   onChange={e => setConcernsOther(e.target.value)}
                   placeholder="その他に気になっていることがあればご記入ください"
                   rows={3}
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 resize-none"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 resize-none"
                 />
               </div>
             </div>
@@ -314,7 +314,7 @@ export default function SurveyPage() {
               </button>
               <button
                 onClick={() => setStep(4)}
-                className="flex-[2] bg-pink-300 text-white rounded-2xl py-4 font-bold text-base shadow-sm hover:bg-pink-400 active:scale-95 transition-all"
+                className="flex-[2] bg-sky-300 text-white rounded-2xl py-4 font-bold text-base shadow-sm hover:bg-sky-400 active:scale-95 transition-all"
               >
                 次へ進む →
               </button>
@@ -325,8 +325,8 @@ export default function SurveyPage() {
         {step === 4 && (
           <div>
             <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">
-              <h2 className="text-base font-bold text-pink-400 mb-1 flex items-center gap-2">
-                <span className="bg-pink-100 text-pink-400 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">4</span>
+              <h2 className="text-base font-bold text-sky-500 mb-1 flex items-center gap-2">
+                <span className="bg-sky-100 text-sky-500 rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">4</span>
                 将来への希望
               </h2>
               <p className="text-xs text-gray-400 mb-4 ml-9">お子さんの成長について、思いを聞かせてください</p>
@@ -339,7 +339,7 @@ export default function SurveyPage() {
                   onChange={e => setFutureHopes(e.target.value)}
                   placeholder="例：自分の気持ちを言葉で伝えられるようになってほしい、友達と楽しく遊べるようになってほしい など"
                   rows={5}
-                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-pink-300 focus:ring-2 focus:ring-pink-100 resize-none"
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 resize-none"
                 />
               </div>
             </div>
@@ -358,7 +358,7 @@ export default function SurveyPage() {
               <button
                 onClick={handleSubmit}
                 disabled={submitting}
-                className="flex-[2] bg-pink-300 text-white rounded-2xl py-4 font-bold text-base shadow-sm hover:bg-pink-400 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                className="flex-[2] bg-sky-300 text-white rounded-2xl py-4 font-bold text-base shadow-sm hover:bg-sky-400 active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
               >
                 {submitting ? '送信中...' : '送信する ✓'}
               </button>
