@@ -34,9 +34,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [viewMode, setViewMode] = useState<ViewMode>('list')
   const [selectedChild, setSelectedChild] = useState<string | null>(null)
-  const [selectedItems, setSelectedItems] = useState<string[]>([
-    'restlessness', 'concentration', 'emotion_control'
-  ])
+  const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [exporting, setExporting] = useState(false)
 
   const fetchResponses = useCallback(async (childName?: string) => {
