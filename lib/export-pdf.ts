@@ -17,7 +17,7 @@ interface Response {
   concerns_other: string | null
   future_hopes: string | null
   submitted_at: string
-  [key: string]: number | string | null
+  [key: string]: number | string | null | undefined
 }
 
 export function exportToPdf(responses: Response[], childName?: string | null) {
