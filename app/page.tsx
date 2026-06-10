@@ -51,7 +51,10 @@ export default function SurveyPage() {
 
     try {
       const now = new Date()
-      const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
+      const treatmentStart = new Date('2026-06-15')
+      const month = now < treatmentStart
+        ? 'pre'
+        : `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
 
       const payload = {
         month,

@@ -54,6 +54,20 @@ export default function DashboardPage() {
 
   const childNames = [...new Set(responses.map(r => r.child_name))].sort()
 
+  function formatMonthLabel(month: string): string {
+    if (month === 'pre') return '施術前'
+    const [year, mm] = month.split('-')
+    return `${year}年${parseInt(mm)}月`
+  }
+
+  function sortedResponses(list: Response[]): Response[] {
+    return [...list].sort((a, b) => {
+      const aKey = a.month === 'pre' ? '0000-00' : a.month
+      const bKey = b.month === 'pre' ? '0000-00' : b.month
+      return aKey.localeCompare(bKey)
+    })
+  }
+
   const handleLogout = async () => {
     await fetch('/api/auth', { method: 'DELETE' })
     router.push('/admin')
@@ -159,13 +173,13 @@ export default function DashboardPage() {
             {/* 一覧表示 */}
             {viewMode === 'list' && (
               <div className="space-y-4">
-                {filteredResponses.map(r => (
+                {sortedResponses(filteredResponses).map(r => (
                   <div key={r.id} className="bg-white rounded-2xl shadow-sm p-5">
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <h3 className="font-bold text-gray-800 text-base">{r.child_name}</h3>
                         <p className="text-xs text-gray-400">
-                          {r.month.split('-')[0]}年{parseInt(r.month.split('-')[1])}月
+                          {formatMonthLabel(r.month)}
                           {r.child_age ? ` · ${r.child_age}歳` : ''}
                           {r.child_grade ? ` · ${r.child_grade}` : ''}
                         </p>
@@ -214,11 +228,11 @@ export default function DashboardPage() {
                 >
                   ← 一覧に戻る
                 </button>
-                {filteredResponses.map(r => (
+                {sortedResponses(filteredResponses).map(r => (
                   <div key={r.id} className="bg-white rounded-2xl shadow-sm p-5">
                     <h3 className="font-bold text-gray-800 text-base mb-1">{r.child_name}</h3>
                     <p className="text-xs text-gray-400 mb-4">
-                      {r.month.split('-')[0]}年{parseInt(r.month.split('-')[1])}月
+                      {formatMonthLabel(r.month)}
                     </p>
 
                     <div className="space-y-4 text-sm">
