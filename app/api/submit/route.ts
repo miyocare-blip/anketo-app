@@ -5,32 +5,34 @@ import { sendNotificationEmail } from '@/lib/mailer'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { child_name, month, ...rest } = body
+    const { child_name, month, respondent_type = 'parent', ...rest } = body
 
     if (!child_name || !month) {
       return NextResponse.json({ error: 'お名前と回答月は必須です' }, { status: 400 })
     }
 
-    // 同月同名の既存回答を確認
+    // スペース（全角・半角）を除去して名前を正規化
+    const normalizedName = child_name.replace(/[\s　]+/g, '')
+
+    // 同月・同名・同回答者種別の既存回答を確認
     const { data: existing } = await supabaseAdmin
       .from('responses')
       .select('id')
-      .eq('child_name', child_name)
+      .eq('child_name', normalizedName)
       .eq('month', month)
+      .eq('respondent_type', respondent_type)
       .single()
 
     let result
     if (existing) {
-      // 上書き更新
       result = await supabaseAdmin
         .from('responses')
-        .update({ ...rest, submitted_at: new Date().toISOString() })
+        .update({ ...rest, respondent_type, submitted_at: new Date().toISOString() })
         .eq('id', existing.id)
     } else {
-      // 新規登録
       result = await supabaseAdmin
         .from('responses')
-        .insert({ child_name, month, ...rest })
+        .insert({ child_name: normalizedName, month, respondent_type, ...rest })
     }
 
     if (result.error) {
@@ -38,9 +40,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'データの保存に失敗しました' }, { status: 500 })
     }
 
-    // メール通知（失敗してもレスポンスは成功扱い）
     try {
-      await sendNotificationEmail(child_name, month)
+      await sendNotificationEmail(normalizedName, month)
     } catch (mailError) {
       console.error('Mail error:', mailError)
     }

@@ -17,7 +17,8 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 
 interface Response {
   month: string
-  [key: string]: number | string | null
+  respondent_type?: string
+  [key: string]: number | string | null | undefined
 }
 
 interface Props {
@@ -30,7 +31,6 @@ const COLORS = [
   '#06b6d4', '#f97316', '#84cc16', '#ec4899', '#14b8a6',
 ]
 
-// 6月2026 = 1回目、7月2026 = 2回目 として計算
 function getMonthLabel(month: string): string {
   if (month === 'pre') return '施術前'
   const [yearStr, mmStr] = month.split('-')
@@ -40,12 +40,8 @@ function getMonthLabel(month: string): string {
   return `${mm}月（${treatmentNum}回目）`
 }
 
-function sortResponses(responses: Response[]): Response[] {
-  return [...responses].sort((a, b) => {
-    const aKey = a.month === 'pre' ? '0000-00' : a.month
-    const bKey = b.month === 'pre' ? '0000-00' : b.month
-    return aKey.localeCompare(bKey)
-  })
+function sortKey(month: string): string {
+  return month === 'pre' ? '0000-00' : month
 }
 
 export default function ResponseChart({ responses, selectedItems }: Props) {
@@ -53,21 +49,57 @@ export default function ResponseChart({ responses, selectedItems }: Props) {
     return <p className="text-gray-400 text-sm text-center py-8">データがありません</p>
   }
 
-  const sorted = sortResponses(responses)
-  const labels = sorted.map(r => getMonthLabel(r.month))
+  const parentResponses = responses.filter(r => r.respondent_type !== 'staff')
+  const staffResponses = responses.filter(r => r.respondent_type === 'staff')
 
-  const datasets = selectedItems.map((key, i) => {
+  // 保護者・施設の両方の月を合わせてソート
+  const allMonths = [...new Set(responses.map(r => r.month))].sort((a, b) =>
+    sortKey(a).localeCompare(sortKey(b))
+  )
+  const labels = allMonths.map(getMonthLabel)
+
+  const datasets = selectedItems.flatMap((key, i) => {
     const item = ALL_SCALE_ITEMS.find(it => it.key === key)
-    return {
-      label: item?.label ?? key,
-      data: sorted.map(r => r[key] as number | null),
-      borderColor: COLORS[i % COLORS.length],
-      backgroundColor: COLORS[i % COLORS.length] + '20',
+    const color = COLORS[i % COLORS.length]
+    const base = {
       tension: 0.3,
       pointRadius: 5,
       pointHoverRadius: 7,
       spanGaps: true,
+      backgroundColor: color + '20',
     }
+
+    const result = []
+
+    const parentData = allMonths.map(m => {
+      const r = parentResponses.find(r => r.month === m)
+      return r ? (r[key] as number | null) : null
+    })
+    if (parentData.some(v => v !== null)) {
+      result.push({
+        ...base,
+        label: `${item?.label ?? key}（保護者）`,
+        data: parentData,
+        borderColor: color,
+        borderDash: [],
+      })
+    }
+
+    const staffData = allMonths.map(m => {
+      const r = staffResponses.find(r => r.month === m)
+      return r ? (r[key] as number | null) : null
+    })
+    if (staffData.some(v => v !== null)) {
+      result.push({
+        ...base,
+        label: `${item?.label ?? key}（施設）`,
+        data: staffData,
+        borderColor: color,
+        borderDash: [5, 5],
+      })
+    }
+
+    return result
   })
 
   const data = { labels, datasets }
@@ -84,8 +116,8 @@ export default function ResponseChart({ responses, selectedItems }: Props) {
         ticks: {
           stepSize: 1,
           callback: (v: number | string) => {
-            const labels: Record<number, string> = { 1: '1', 2: '2', 3: '3', 4: '4', 5: '5' }
-            return labels[v as number] ?? v
+            const map: Record<number, string> = { 1: '1', 2: '2', 3: '3', 4: '4', 5: '5' }
+            return map[v as number] ?? v
           },
         },
       },
