@@ -34,9 +34,7 @@ export async function GET(req: NextRequest) {
     'その他の困りごと', '一年後への希望', '送信日時',
   ]
 
-  const headerHtml = `<tr style="background-color:#6366F1;color:#FFFFFF;font-weight:bold;">
-    ${headers.map(h => `<td>${esc(h)}</td>`).join('')}
-  </tr>`
+  const headerHtml = `<tr>${headers.map(h => `<td bgcolor="#6366F1"><font color="#FFFFFF"><b>${esc(h)}</b></font></td>`).join('')}</tr>`
 
   const dataHtml = sorted.map(r => {
     const monthLabel = r.month === 'pre' ? '施術前' : (() => {
@@ -65,9 +63,7 @@ export async function GET(req: NextRequest) {
       r.submitted_at ? new Date(r.submitted_at).toLocaleString('ja-JP') : '',
     ]
 
-    return `<tr style="background-color:${bg};">
-      ${values.map(v => `<td>${esc(v)}</td>`).join('')}
-    </tr>`
+    return `<tr>${values.map(v => `<td bgcolor="${bg}">${esc(v)}</td>`).join('')}</tr>`
   }).join('\n')
 
   const html = `<html>
