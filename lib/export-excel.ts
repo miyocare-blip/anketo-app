@@ -84,8 +84,14 @@ export async function exportToExcel(responses: Response[], childName?: string | 
     })
   })
 
-  // 列幅自動調整
-  ws.columns.forEach(col => { col.width = 15 })
+  // 列幅
+  ws.columns.forEach(col => { col.width = 12 })
+
+  // 印刷設定：横1ページに収める・横向き
+  ws.pageSetup.orientation = 'landscape'
+  ws.pageSetup.fitToPage = true
+  ws.pageSetup.fitToWidth = 1
+  ws.pageSetup.fitToHeight = 0
 
   // ダウンロード
   const buffer = await wb.xlsx.writeBuffer()
