@@ -77,14 +77,14 @@ export default function DashboardPage() {
   const handleExportExcel = async () => {
     setExporting(true)
     const { exportToExcel } = await import('@/lib/export-excel')
-    exportToExcel(responses, selectedChild)
+    exportToExcel(filteredResponses, selectedChild)
     setExporting(false)
   }
 
   const handleExportPdf = async () => {
     setExporting(true)
     const { exportToPdf } = await import('@/lib/export-pdf')
-    exportToPdf(responses, selectedChild)
+    exportToPdf(filteredResponses, selectedChild)
     setExporting(false)
   }
 
