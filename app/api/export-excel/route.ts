@@ -11,11 +11,6 @@ function esc(v: unknown): string {
     .replace(/"/g, '&quot;')
 }
 
-function cell(value: unknown, styleId: string): string {
-  const type = typeof value === 'number' ? 'Number' : 'String'
-  return `<Cell ss:StyleID="${styleId}"><Data ss:Type="${type}">${esc(value)}</Data></Cell>`
-}
-
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const childName = searchParams.get('child_name')
@@ -39,15 +34,17 @@ export async function GET(req: NextRequest) {
     'その他の困りごと', '一年後への希望', '送信日時',
   ]
 
-  const headerRow = `<Row>${headers.map(h => cell(h, 'header')).join('')}</Row>`
+  const headerHtml = `<tr style="background-color:#6366F1;color:#FFFFFF;font-weight:bold;">
+    ${headers.map(h => `<td>${esc(h)}</td>`).join('')}
+  </tr>`
 
-  const dataRows = sorted.map(r => {
+  const dataHtml = sorted.map(r => {
     const monthLabel = r.month === 'pre' ? '施術前' : (() => {
       const [year, month] = r.month.split('-')
       return `${year}年${parseInt(month)}月`
     })()
     const isStaff = r.respondent_type === 'staff'
-    const s = isStaff ? 'staff' : 'parent'
+    const bg = isStaff ? '#E0F2FE' : '#FFFFFF'
 
     const values: unknown[] = [
       monthLabel,
@@ -68,40 +65,42 @@ export async function GET(req: NextRequest) {
       r.submitted_at ? new Date(r.submitted_at).toLocaleString('ja-JP') : '',
     ]
 
-    return `<Row>${values.map(v => cell(v, s)).join('')}</Row>`
+    return `<tr style="background-color:${bg};">
+      ${values.map(v => `<td>${esc(v)}</td>`).join('')}
+    </tr>`
   }).join('\n')
 
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
-  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
-  xmlns:o="urn:schemas-microsoft-com:office:office">
-  <Styles>
-    <Style ss:ID="header">
-      <Interior ss:Color="#6366F1" ss:Pattern="Solid"/>
-      <Font ss:Color="#FFFFFF" ss:Bold="1"/>
-      <Alignment ss:Horizontal="Center"/>
-    </Style>
-    <Style ss:ID="parent">
-      <Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/>
-    </Style>
-    <Style ss:ID="staff">
-      <Interior ss:Color="#E0F2FE" ss:Pattern="Solid"/>
-    </Style>
-  </Styles>
-  <Worksheet ss:Name="回答データ">
-    <Table>
-      ${headerRow}
-      ${dataRows}
-    </Table>
-  </Worksheet>
-</Workbook>`
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="UTF-8">
+<!--[if gte mso 9]><xml>
+<x:ExcelWorkbook>
+  <x:ExcelWorksheets>
+    <x:ExcelWorksheet>
+      <x:Name>回答データ</x:Name>
+    </x:ExcelWorksheet>
+  </x:ExcelWorksheets>
+</x:ExcelWorkbook>
+</xml><![endif]-->
+<style>
+  td { border: 1px solid #ccc; padding: 4px 6px; font-size: 11pt; }
+</style>
+</head>
+<body>
+<table border="1" cellpadding="4" cellspacing="0">
+  ${headerHtml}
+  ${dataHtml}
+</table>
+</body>
+</html>`
 
   const filename = childName
     ? `アンケート_${childName}_${new Date().toISOString().slice(0, 10)}.xls`
     : `アンケート_全員_${new Date().toISOString().slice(0, 10)}.xls`
 
-  return new NextResponse(xml, {
+  return new NextResponse(html, {
     headers: {
       'Content-Type': 'application/vnd.ms-excel; charset=UTF-8',
       'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(filename)}`,
