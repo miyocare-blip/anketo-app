@@ -20,7 +20,15 @@ interface Response {
 }
 
 export function exportToExcel(responses: Response[], childName?: string | null) {
-  const rows = responses.map(r => {
+  const sorted = [...responses].sort((a, b) => {
+    const aMonth = a.month === 'pre' ? '0000-00' : a.month
+    const bMonth = b.month === 'pre' ? '0000-00' : b.month
+    if (aMonth !== bMonth) return aMonth.localeCompare(bMonth)
+    const aType = a.respondent_type === 'staff' ? 1 : 0
+    const bType = b.respondent_type === 'staff' ? 1 : 0
+    return aType - bType
+  })
+  const rows = sorted.map(r => {
     const monthLabel = r.month === 'pre' ? '施術前' : (() => {
       const [year, month] = r.month.split('-')
       return `${year}年${parseInt(month)}月`
