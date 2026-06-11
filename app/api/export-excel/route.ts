@@ -77,12 +77,12 @@ export async function GET(req: NextRequest) {
 </html>`
 
   const filename = childName
-    ? `アンケート_${childName}_${new Date().toISOString().slice(0, 10)}.xls`
-    : `アンケート_全員_${new Date().toISOString().slice(0, 10)}.xls`
+    ? `アンケート_${childName}_${new Date().toISOString().slice(0, 10)}.htm`
+    : `アンケート_全員_${new Date().toISOString().slice(0, 10)}.htm`
 
   return new NextResponse(html, {
     headers: {
-      'Content-Type': 'application/vnd.ms-excel; charset=UTF-8',
+      'Content-Type': 'text/html; charset=UTF-8',
       'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(filename)}`,
     },
   })

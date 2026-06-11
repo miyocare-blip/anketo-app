@@ -83,8 +83,8 @@ export default function DashboardPage() {
     const a = document.createElement('a')
     a.href = url
     const filename = selectedChild
-      ? `アンケート_${selectedChild}_${new Date().toISOString().slice(0, 10)}.xls`
-      : `アンケート_全員_${new Date().toISOString().slice(0, 10)}.xls`
+      ? `アンケート_${selectedChild}_${new Date().toISOString().slice(0, 10)}.htm`
+      : `アンケート_全員_${new Date().toISOString().slice(0, 10)}.htm`
     a.download = filename
     a.click()
     URL.revokeObjectURL(url)
