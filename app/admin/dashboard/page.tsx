@@ -76,8 +76,18 @@ export default function DashboardPage() {
 
   const handleExportExcel = async () => {
     setExporting(true)
-    const { exportToExcel } = await import('@/lib/export-excel')
-    await exportToExcel(filteredResponses, selectedChild)
+    const params = selectedChild ? `?child_name=${encodeURIComponent(selectedChild)}` : ''
+    const res = await fetch(`/api/export-excel${params}`)
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    const filename = selectedChild
+      ? `アンケート_${selectedChild}_${new Date().toISOString().slice(0, 10)}.xlsx`
+      : `アンケート_全員_${new Date().toISOString().slice(0, 10)}.xlsx`
+    a.download = filename
+    a.click()
+    URL.revokeObjectURL(url)
     setExporting(false)
   }
 
