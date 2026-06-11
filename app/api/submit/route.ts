@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     if (result.error) {
       console.error('DB error:', result.error)
-      return NextResponse.json({ error: 'データの保存に失敗しました' }, { status: 500 })
+      return NextResponse.json({ error: `データの保存に失敗しました: ${result.error.message}` }, { status: 500 })
     }
 
     try {
