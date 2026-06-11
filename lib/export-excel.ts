@@ -21,9 +21,12 @@ interface Response {
 
 export function exportToExcel(responses: Response[], childName?: string | null) {
   const rows = responses.map(r => {
-    const [year, month] = r.month.split('-')
+    const monthLabel = r.month === 'pre' ? '施術前' : (() => {
+      const [year, month] = r.month.split('-')
+      return `${year}年${parseInt(month)}月`
+    })()
     const row: Record<string, string | number | null> = {
-      '回答月': `${year}年${parseInt(month)}月`,
+      '回答月': monthLabel,
       'お名前': r.child_name,
       '年齢': r.child_age,
       '学年': r.child_grade,

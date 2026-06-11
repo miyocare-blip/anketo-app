@@ -38,9 +38,12 @@ export function exportToPdf(responses: Response[], childName?: string | null) {
   ]
 
   const rows = responses.map(r => {
-    const [year, month] = r.month.split('-')
+    const monthLabel = r.month === 'pre' ? '施術前' : (() => {
+      const [year, month] = r.month.split('-')
+      return `${year}/${parseInt(month)}`
+    })()
     return [
-      `${year}/${parseInt(month)}`,
+      monthLabel,
       r.child_name,
       r.child_age?.toString() ?? '',
       r.child_grade ?? '',
