@@ -27,6 +27,7 @@ export function exportToExcel(responses: Response[], childName?: string | null) 
     })()
     const row: Record<string, string | number | null> = {
       '回答月': monthLabel,
+      '回答者': r.respondent_type === 'staff' ? '施設スタッフ' : '保護者',
       'お名前': r.child_name,
       '年齢': r.child_age,
       '学年': r.child_grade,
