@@ -70,26 +70,10 @@ export async function GET(req: NextRequest) {
     </tr>`
   }).join('\n')
 
-  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office"
-  xmlns:x="urn:schemas-microsoft-com:office:excel"
-  xmlns="http://www.w3.org/TR/REC-html40">
-<head>
-<meta charset="UTF-8">
-<!--[if gte mso 9]><xml>
-<x:ExcelWorkbook>
-  <x:ExcelWorksheets>
-    <x:ExcelWorksheet>
-      <x:Name>回答データ</x:Name>
-    </x:ExcelWorksheet>
-  </x:ExcelWorksheets>
-</x:ExcelWorkbook>
-</xml><![endif]-->
-<style>
-  td { border: 1px solid #ccc; padding: 4px 6px; font-size: 11pt; }
-</style>
-</head>
+  const html = `<html>
+<head><meta charset="UTF-8"></head>
 <body>
-<table border="1" cellpadding="4" cellspacing="0">
+<table border="1" cellpadding="4" cellspacing="0" style="border-collapse:collapse;font-size:11pt;font-family:sans-serif;">
   ${headerHtml}
   ${dataHtml}
 </table>
