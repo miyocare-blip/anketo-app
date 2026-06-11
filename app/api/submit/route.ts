@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      await sendNotificationEmail(normalizedName, month)
+      await sendNotificationEmail(normalizedName, month, respondent_type)
     } catch (mailError) {
       console.error('Mail error:', mailError)
     }

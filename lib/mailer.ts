@@ -8,20 +8,24 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-export async function sendNotificationEmail(childName: string, month: string) {
+export async function sendNotificationEmail(childName: string, month: string, respondentType: string = 'parent') {
   const notifyEmails = process.env.NOTIFY_EMAILS?.split(',').map(e => e.trim()) ?? []
   if (notifyEmails.length === 0) return
 
-  const [year, monthNum] = month.split('-')
-  const monthLabel = `${year}年${parseInt(monthNum)}月`
+  const monthLabel = month === 'pre' ? '施術前' : (() => {
+    const [year, monthNum] = month.split('-')
+    return `${year}年${parseInt(monthNum)}月`
+  })()
+
+  const sender = respondentType === 'staff' ? '施設スタッフ' : '保護者'
 
   await transporter.sendMail({
     from: process.env.GMAIL_USER,
     to: notifyEmails.join(','),
     subject: `【アンケート回答】${childName}さんの${monthLabel}分が届きました`,
-    text: `${childName}さんの保護者から${monthLabel}のアンケート回答が届きました。\n\n管理画面からご確認ください。`,
+    text: `${childName}さんの${sender}から${monthLabel}のアンケート回答が届きました。\n\n管理画面からご確認ください。`,
     html: `
-      <p><strong>${childName}</strong>さんの保護者から<strong>${monthLabel}</strong>のアンケート回答が届きました。</p>
+      <p><strong>${childName}</strong>さんの${sender}から<strong>${monthLabel}</strong>のアンケート回答が届きました。</p>
       <p>管理画面からご確認ください。</p>
     `,
   })
