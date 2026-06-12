@@ -22,6 +22,8 @@ export default function SurveyForm({ respondentType }: Props) {
   const themes = {
     staff: {
       headerBg: 'bg-sky-400',
+      headerText: 'text-white',
+      progressActive: 'bg-white',
       progressInactive: 'bg-sky-200',
       progressText: 'text-sky-100',
       pageBg: 'bg-sky-50',
@@ -29,10 +31,13 @@ export default function SurveyForm({ respondentType }: Props) {
       sectionBadge: 'bg-sky-100 text-sky-500',
       inputFocus: 'focus:border-sky-300 focus:ring-2 focus:ring-sky-100',
       btnPrimary: 'bg-sky-400 hover:bg-sky-500',
+      btnText: 'text-white',
       title: '施設スタッフアンケート',
     },
     parent: {
       headerBg: 'bg-pink-300',
+      headerText: 'text-white',
+      progressActive: 'bg-white',
       progressInactive: 'bg-pink-200',
       progressText: 'text-pink-100',
       pageBg: 'bg-pink-50',
@@ -40,17 +45,21 @@ export default function SurveyForm({ respondentType }: Props) {
       sectionBadge: 'bg-pink-100 text-pink-400',
       inputFocus: 'focus:border-pink-300 focus:ring-2 focus:ring-pink-100',
       btnPrimary: 'bg-pink-300 hover:bg-pink-400',
+      btnText: 'text-white',
       title: '保護者アンケート',
     },
     child: {
-      headerBg: 'bg-green-300',
-      progressInactive: 'bg-green-200',
-      progressText: 'text-green-100',
-      pageBg: 'bg-green-50',
-      sectionTitle: 'text-green-500',
-      sectionBadge: 'bg-green-100 text-green-500',
-      inputFocus: 'focus:border-green-300 focus:ring-2 focus:ring-green-100',
-      btnPrimary: 'bg-green-400 hover:bg-green-500',
+      headerBg: 'bg-emerald-100',
+      headerText: 'text-emerald-900',
+      progressActive: 'bg-emerald-400',
+      progressInactive: 'bg-emerald-200',
+      progressText: 'text-emerald-700',
+      pageBg: 'bg-emerald-50',
+      sectionTitle: 'text-emerald-600',
+      sectionBadge: 'bg-emerald-100 text-emerald-600',
+      inputFocus: 'focus:border-emerald-200 focus:ring-2 focus:ring-emerald-50',
+      btnPrimary: 'bg-emerald-200 hover:bg-emerald-300',
+      btnText: 'text-emerald-900',
       title: 'こどもアンケート',
     },
   }
@@ -149,14 +158,14 @@ export default function SurveyForm({ respondentType }: Props) {
 
   return (
     <div className={`min-h-screen ${c.pageBg}`}>
-      <div className={`${c.headerBg} text-white px-4 py-5 sticky top-0 z-10 shadow-sm`}>
+      <div className={`${c.headerBg} ${c.headerText} px-4 py-5 sticky top-0 z-10 shadow-sm`}>
         <h1 className="text-lg font-bold text-center">{c.title}</h1>
         <div className="flex justify-center gap-1 mt-2">
           {[1, 2, 3, 4].map(n => (
             <div
               key={n}
               className={`h-1.5 rounded-full transition-all duration-300 ${
-                n <= step ? 'bg-white w-8' : `${c.progressInactive} w-4`
+                n <= step ? `${c.progressActive} w-8` : `${c.progressInactive} w-4`
               }`}
             />
           ))}
@@ -212,7 +221,7 @@ export default function SurveyForm({ respondentType }: Props) {
                 if (!childName.trim()) { setError('お子さんのお名前を入力してください'); return }
                 setError(''); setStep(2)
               }}
-              className={`w-full ${c.btnPrimary} text-white rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all`}
+              className={`w-full ${c.btnPrimary} ${c.btnText} rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all`}
             >
               次へ進む →
             </button>
@@ -244,7 +253,7 @@ export default function SurveyForm({ respondentType }: Props) {
             </div>
             <div className="flex gap-3">
               <button onClick={() => setStep(1)} className="flex-1 border border-gray-300 text-gray-600 rounded-2xl py-4 font-bold text-base hover:bg-gray-50 active:scale-95 transition-all">← 戻る</button>
-              <button onClick={() => setStep(3)} className={`flex-[2] ${c.btnPrimary} text-white rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all`}>次へ進む →</button>
+              <button onClick={() => setStep(3)} className={`flex-[2] ${c.btnPrimary} ${c.btnText} rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all`}>次へ進む →</button>
             </div>
           </div>
         )}
@@ -284,7 +293,7 @@ export default function SurveyForm({ respondentType }: Props) {
             </div>
             <div className="flex gap-3">
               <button onClick={() => setStep(2)} className="flex-1 border border-gray-300 text-gray-600 rounded-2xl py-4 font-bold text-base hover:bg-gray-50 active:scale-95 transition-all">← 戻る</button>
-              <button onClick={() => setStep(4)} className={`flex-[2] ${c.btnPrimary} text-white rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all`}>次へ進む →</button>
+              <button onClick={() => setStep(4)} className={`flex-[2] ${c.btnPrimary} ${c.btnText} rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all`}>次へ進む →</button>
             </div>
           </div>
         )}
@@ -309,7 +318,7 @@ export default function SurveyForm({ respondentType }: Props) {
             )}
             <div className="flex gap-3">
               <button onClick={() => setStep(3)} className="flex-1 border border-gray-300 text-gray-600 rounded-2xl py-4 font-bold text-base hover:bg-gray-50 active:scale-95 transition-all">← 戻る</button>
-              <button onClick={handleSubmit} disabled={submitting} className={`flex-[2] ${c.btnPrimary} text-white rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all disabled:opacity-60`}>
+              <button onClick={handleSubmit} disabled={submitting} className={`flex-[2] ${c.btnPrimary} ${c.btnText} rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all disabled:opacity-60`}>
                 {submitting ? '送信中...' : '送信する ✓'}
               </button>
             </div>
