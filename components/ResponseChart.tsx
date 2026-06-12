@@ -49,8 +49,9 @@ export default function ResponseChart({ responses, selectedItems }: Props) {
     return <p className="text-gray-400 text-sm text-center py-8">データがありません</p>
   }
 
-  const parentResponses = responses.filter(r => r.respondent_type !== 'staff')
+  const parentResponses = responses.filter(r => r.respondent_type === 'parent' || r.respondent_type == null)
   const staffResponses = responses.filter(r => r.respondent_type === 'staff')
+  const childResponses = responses.filter(r => r.respondent_type === 'child')
 
   // 保護者・施設の両方の月を合わせてソート
   const allMonths = [...new Set(responses.map(r => r.month))].sort((a, b) =>
@@ -96,6 +97,20 @@ export default function ResponseChart({ responses, selectedItems }: Props) {
         data: staffData,
         borderColor: color,
         borderDash: [5, 5],
+      })
+    }
+
+    const childData = allMonths.map(m => {
+      const r = childResponses.find(r => r.month === m)
+      return r ? (r[key] as number | null) : null
+    })
+    if (childData.some(v => v !== null)) {
+      result.push({
+        ...base,
+        label: `${item?.label ?? key}（指紋）`,
+        data: childData,
+        borderColor: color,
+        borderDash: [2, 2],
       })
     }
 

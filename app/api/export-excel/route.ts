@@ -47,7 +47,7 @@ export async function GET(req: NextRequest) {
 
     const values: unknown[] = [
       monthLabel,
-      isStaff ? '施設スタッフ' : isChild ? 'こども' : '保護者',
+      isStaff ? '施設スタッフ' : isChild ? '指紋' : '保護者',
       r.child_name,
       r.child_age,
       r.child_grade,

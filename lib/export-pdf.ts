@@ -36,7 +36,7 @@ export function exportToPdf(responses: Response[], childName?: string | null) {
       const [year, month] = r.month.split('-')
       return `${year}年${parseInt(month)}月`
     })()
-    const respondent = r.respondent_type === 'staff' ? '施設スタッフ' : '保護者'
+    const respondent = r.respondent_type === 'staff' ? '施設スタッフ' : r.respondent_type === 'child' ? '指紋' : '保護者'
     return { monthLabel, respondent, r }
   })
 
