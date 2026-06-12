@@ -42,11 +42,12 @@ export async function GET(req: NextRequest) {
       return `${year}年${parseInt(month)}月`
     })()
     const isStaff = r.respondent_type === 'staff'
-    const bg = isStaff ? '#E0F2FE' : '#FFFFFF'
+    const isChild = r.respondent_type === 'child'
+    const bg = isStaff ? '#E0F2FE' : isChild ? '#DCFCE7' : '#FFFFFF'
 
     const values: unknown[] = [
       monthLabel,
-      isStaff ? '施設スタッフ' : '保護者',
+      isStaff ? '施設スタッフ' : isChild ? 'こども' : '保護者',
       r.child_name,
       r.child_age,
       r.child_grade,

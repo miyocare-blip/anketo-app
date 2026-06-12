@@ -15,32 +15,46 @@ const initialScales = (): ScaleValues => {
 }
 
 interface Props {
-  respondentType: 'parent' | 'staff'
+  respondentType: 'parent' | 'staff' | 'child'
 }
 
 export default function SurveyForm({ respondentType }: Props) {
-  const isStaff = respondentType === 'staff'
-  const c = isStaff ? {
-    headerBg: 'bg-sky-400',
-    progressInactive: 'bg-sky-200',
-    progressText: 'text-sky-100',
-    pageBg: 'bg-sky-50',
-    sectionTitle: 'text-sky-500',
-    sectionBadge: 'bg-sky-100 text-sky-500',
-    inputFocus: 'focus:border-sky-300 focus:ring-2 focus:ring-sky-100',
-    btnPrimary: 'bg-sky-400 hover:bg-sky-500',
-    title: '施設スタッフアンケート',
-  } : {
-    headerBg: 'bg-pink-300',
-    progressInactive: 'bg-pink-200',
-    progressText: 'text-pink-100',
-    pageBg: 'bg-pink-50',
-    sectionTitle: 'text-pink-400',
-    sectionBadge: 'bg-pink-100 text-pink-400',
-    inputFocus: 'focus:border-pink-300 focus:ring-2 focus:ring-pink-100',
-    btnPrimary: 'bg-pink-300 hover:bg-pink-400',
-    title: '保護者アンケート',
+  const themes = {
+    staff: {
+      headerBg: 'bg-sky-400',
+      progressInactive: 'bg-sky-200',
+      progressText: 'text-sky-100',
+      pageBg: 'bg-sky-50',
+      sectionTitle: 'text-sky-500',
+      sectionBadge: 'bg-sky-100 text-sky-500',
+      inputFocus: 'focus:border-sky-300 focus:ring-2 focus:ring-sky-100',
+      btnPrimary: 'bg-sky-400 hover:bg-sky-500',
+      title: '施設スタッフアンケート',
+    },
+    parent: {
+      headerBg: 'bg-pink-300',
+      progressInactive: 'bg-pink-200',
+      progressText: 'text-pink-100',
+      pageBg: 'bg-pink-50',
+      sectionTitle: 'text-pink-400',
+      sectionBadge: 'bg-pink-100 text-pink-400',
+      inputFocus: 'focus:border-pink-300 focus:ring-2 focus:ring-pink-100',
+      btnPrimary: 'bg-pink-300 hover:bg-pink-400',
+      title: '保護者アンケート',
+    },
+    child: {
+      headerBg: 'bg-green-300',
+      progressInactive: 'bg-green-200',
+      progressText: 'text-green-100',
+      pageBg: 'bg-green-50',
+      sectionTitle: 'text-green-500',
+      sectionBadge: 'bg-green-100 text-green-500',
+      inputFocus: 'focus:border-green-300 focus:ring-2 focus:ring-green-100',
+      btnPrimary: 'bg-green-400 hover:bg-green-500',
+      title: 'こどもアンケート',
+    },
   }
+  const c = themes[respondentType]
 
   const [step, setStep] = useState(1)
   const [submitting, setSubmitting] = useState(false)
