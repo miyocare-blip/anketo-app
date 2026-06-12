@@ -91,6 +91,23 @@ export default function DashboardPage() {
     setExporting(false)
   }
 
+  const handleExportCsv = async () => {
+    setExporting(true)
+    const params = selectedChild ? `?child_name=${encodeURIComponent(selectedChild)}` : ''
+    const res = await fetch(`/api/export-csv${params}`)
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    const filename = selectedChild
+      ? `アンケート_${selectedChild}_${new Date().toISOString().slice(0, 10)}.csv`
+      : `アンケート_全員_${new Date().toISOString().slice(0, 10)}.csv`
+    a.download = filename
+    a.click()
+    URL.revokeObjectURL(url)
+    setExporting(false)
+  }
+
   const handleExportPdf = async () => {
     setExporting(true)
     const { exportToPdf } = await import('@/lib/export-pdf')
@@ -164,6 +181,13 @@ export default function DashboardPage() {
               className="px-3 py-2 rounded-xl text-sm font-medium border border-green-400 text-green-700 hover:bg-green-50 transition-all disabled:opacity-50"
             >
               📊 Excel
+            </button>
+            <button
+              onClick={handleExportCsv}
+              disabled={exporting}
+              className="px-3 py-2 rounded-xl text-sm font-medium border border-teal-400 text-teal-700 hover:bg-teal-50 transition-all disabled:opacity-50"
+            >
+              📋 CSV
             </button>
             <button
               onClick={handleExportPdf}
