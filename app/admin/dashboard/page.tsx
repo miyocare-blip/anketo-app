@@ -191,7 +191,7 @@ export default function DashboardPage() {
                         <h3 className="font-bold text-gray-800 text-base">{r.child_name}</h3>
                         <p className="text-xs text-gray-400">
                           {formatMonthLabel(r.month)}
-                          {' · '}<span className={r.respondent_type === 'staff' ? 'text-sky-500' : 'text-pink-400'}>{r.respondent_type === 'staff' ? '施設' : '保護者'}</span>
+                          {' · '}<span className={r.respondent_type === 'staff' ? 'text-sky-500' : r.respondent_type === 'child' ? 'text-emerald-600' : 'text-pink-400'}>{r.respondent_type === 'staff' ? '施設' : r.respondent_type === 'child' ? '👆こども' : '保護者'}</span>
                           {r.child_age ? ` · ${r.child_age}歳` : ''}
                           {r.child_grade ? ` · ${r.child_grade}` : ''}
                         </p>
