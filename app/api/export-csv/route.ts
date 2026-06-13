@@ -20,11 +20,12 @@ export async function GET(req: NextRequest) {
   const { data, error } = await query
   if (error) return NextResponse.json({ error: 'データ取得失敗' }, { status: 500 })
 
+  const typeOrder = (t: string) => t === 'parent' || !t ? 0 : t === 'staff' ? 1 : 2
   const sorted = (data ?? []).sort((a, b) => {
     const aMonth = a.month === 'pre' ? '0000-00' : a.month
     const bMonth = b.month === 'pre' ? '0000-00' : b.month
     if (aMonth !== bMonth) return aMonth.localeCompare(bMonth)
-    return (a.respondent_type === 'staff' ? 1 : 0) - (b.respondent_type === 'staff' ? 1 : 0)
+    return typeOrder(a.respondent_type) - typeOrder(b.respondent_type)
   })
 
   const headers = [

@@ -23,13 +23,12 @@ export function exportToPdf(responses: Response[], childName?: string | null) {
   const title = childName ? `アンケート回答 - ${childName}` : 'アンケート回答 - 全員'
   const date = new Date().toLocaleDateString('ja-JP')
 
+  const typeOrder = (t?: string) => t === 'parent' || !t ? 0 : t === 'staff' ? 1 : 2
   const sorted = [...responses].sort((a, b) => {
     const aMonth = a.month === 'pre' ? '0000-00' : a.month
     const bMonth = b.month === 'pre' ? '0000-00' : b.month
     if (aMonth !== bMonth) return aMonth.localeCompare(bMonth)
-    const aType = a.respondent_type === 'staff' ? 1 : 0
-    const bType = b.respondent_type === 'staff' ? 1 : 0
-    return aType - bType
+    return typeOrder(a.respondent_type) - typeOrder(b.respondent_type)
   })
   const rows = sorted.map(r => {
     const monthLabel = r.month === 'pre' ? '施術前' : (() => {
