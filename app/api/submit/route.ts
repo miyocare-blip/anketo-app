@@ -31,15 +31,14 @@ export async function POST(req: NextRequest) {
         .maybeSingle()
       monthToUse = preExisting ? currentMonth : 'pre'
     } else if (month === 'auto') {
-      const { data: meaningfulPre } = await supabaseAdmin
+      const { data: preExisting } = await supabaseAdmin
         .from('responses')
         .select('id')
         .eq('child_name', normalizedName)
         .eq('month', 'pre')
         .eq('respondent_type', respondent_type)
-        .not('restlessness', 'is', null)
         .maybeSingle()
-      monthToUse = meaningfulPre ? currentMonth : 'pre'
+      monthToUse = preExisting ? currentMonth : 'pre'
     }
 
     // 同月・同名・同回答者種別の既存回答を確認
