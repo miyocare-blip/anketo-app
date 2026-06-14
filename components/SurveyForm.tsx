@@ -99,14 +99,8 @@ export default function SurveyForm({ respondentType }: Props) {
     setSubmitting(true)
 
     try {
-      const now = new Date()
-      const treatmentStart = new Date('2026-06-15')
-      const month = now < treatmentStart
-        ? 'pre'
-        : `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
-
       const payload = {
-        month,
+        month: 'auto',
         respondent_type: respondentType,
         child_name: childName.trim().replace(/[\s　]+/g, ''),
         child_age: childAge ? parseInt(childAge) : null,

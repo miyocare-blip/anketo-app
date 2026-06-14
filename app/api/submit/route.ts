@@ -14,8 +14,13 @@ export async function POST(req: NextRequest) {
     // スペース（全角・半角）を除去して名前を正規化
     const normalizedName = child_name.replace(/[\s　]+/g, '')
 
-    // こども回答者は1回目→施術前、2回目→当月、をサーバー側で自動判定
+    // 月をサーバー側で自動判定
+    // - child: 'pre'が存在すれば当月、なければ施術前
+    // - parent/staff: 内容のある'pre'が存在すれば当月、なければ施術前（名前だけの空回答は上書き）
+    const now = new Date()
+    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
     let monthToUse = month
+
     if (respondent_type === 'child') {
       const { data: preExisting } = await supabaseAdmin
         .from('responses')
@@ -24,10 +29,17 @@ export async function POST(req: NextRequest) {
         .eq('month', 'pre')
         .eq('respondent_type', 'child')
         .maybeSingle()
-      const now = new Date()
-      monthToUse = preExisting
-        ? `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
-        : 'pre'
+      monthToUse = preExisting ? currentMonth : 'pre'
+    } else if (month === 'auto') {
+      const { data: meaningfulPre } = await supabaseAdmin
+        .from('responses')
+        .select('id')
+        .eq('child_name', normalizedName)
+        .eq('month', 'pre')
+        .eq('respondent_type', respondent_type)
+        .not('restlessness', 'is', null)
+        .maybeSingle()
+      monthToUse = meaningfulPre ? currentMonth : 'pre'
     }
 
     // 同月・同名・同回答者種別の既存回答を確認
