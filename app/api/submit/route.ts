@@ -56,10 +56,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: `データの保存に失敗しました: ${result.error.message}` }, { status: 500 })
     }
 
-    try {
-      await sendNotificationEmail(normalizedName, monthToUse, respondent_type)
-    } catch (mailError) {
-      console.error('Mail error:', mailError)
+    if (respondent_type === 'parent') {
+      try {
+        await sendNotificationEmail(normalizedName, monthToUse, respondent_type)
+      } catch (mailError) {
+        console.error('Mail error:', mailError)
+      }
     }
 
     return NextResponse.json({ success: true })
