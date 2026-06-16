@@ -43,7 +43,7 @@ export default function FeedbackPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-amber-50 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-purple-50 p-4">
         <div className="bg-white rounded-2xl shadow-sm p-8 max-w-sm w-full text-center">
           <div className="text-5xl mb-4">✅</div>
           <h2 className="text-xl font-bold text-gray-800 mb-2">送信完了しました</h2>
@@ -54,8 +54,8 @@ export default function FeedbackPage() {
   }
 
   return (
-    <div className="min-h-screen bg-amber-50">
-      <div className="bg-amber-400 text-white px-4 py-5 sticky top-0 z-10 shadow-sm">
+    <div className="min-h-screen bg-purple-50">
+      <div className="bg-purple-200 text-purple-900 px-4 py-5 sticky top-0 z-10 shadow-sm">
         <h1 className="text-lg font-bold text-center">保護者感想フォーム</h1>
       </div>
       <div className="max-w-lg mx-auto px-4 py-6">
@@ -70,7 +70,7 @@ export default function FeedbackPage() {
                 value={childName}
                 onChange={e => setChildName(e.target.value)}
                 placeholder="例：山田太郎"
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-300 focus:ring-2 focus:ring-amber-100"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-100"
               />
             </div>
             <div>
@@ -82,7 +82,7 @@ export default function FeedbackPage() {
                 onChange={e => setContent(e.target.value)}
                 placeholder="今月の変化や気づいたことなど、自由にお書きください"
                 rows={6}
-                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-amber-300 focus:ring-2 focus:ring-amber-100 resize-none"
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-100 resize-none"
               />
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function FeedbackPage() {
         <button
           onClick={handleSubmit}
           disabled={submitting}
-          className="w-full bg-amber-400 hover:bg-amber-500 text-white rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all disabled:opacity-60"
+          className="w-full bg-purple-200 hover:bg-purple-300 text-purple-900 rounded-2xl py-4 font-bold text-base shadow-sm active:scale-95 transition-all disabled:opacity-60"
         >
           {submitting ? '送信中...' : '送信する ✓'}
         </button>
