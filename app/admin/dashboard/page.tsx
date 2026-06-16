@@ -27,11 +27,20 @@ interface Response {
   [key: string]: number | string | null | undefined
 }
 
-type ViewMode = 'list' | 'detail' | 'chart'
+type ViewMode = 'list' | 'detail' | 'chart' | 'feedback'
+
+interface Feedback {
+  id: string
+  child_name: string
+  month: string
+  content: string
+  submitted_at: string
+}
 
 export default function DashboardPage() {
   const router = useRouter()
   const [responses, setResponses] = useState<Response[]>([])
+  const [feedbacks, setFeedbacks] = useState<Feedback[]>([])
   const [loading, setLoading] = useState(true)
   const [viewMode, setViewMode] = useState<ViewMode>('list')
   const [selectedChild, setSelectedChild] = useState<string | null>(null)
@@ -49,9 +58,18 @@ export default function DashboardPage() {
     setLoading(false)
   }, [router])
 
+  const fetchFeedbacks = useCallback(async () => {
+    const res = await fetch('/api/feedback')
+    if (res.ok) {
+      const data = await res.json()
+      setFeedbacks(data)
+    }
+  }, [])
+
   useEffect(() => {
     fetchResponses()
-  }, [fetchResponses])
+    fetchFeedbacks()
+  }, [fetchResponses, fetchFeedbacks])
 
   const childNames = [...new Set(responses.map(r => r.child_name))].sort()
 
@@ -158,8 +176,8 @@ export default function DashboardPage() {
             </select>
           </div>
 
-          <div className="flex gap-2">
-            {(['list', 'chart'] as const).map(mode => (
+          <div className="flex gap-2 flex-wrap">
+            {(['list', 'chart', 'feedback'] as const).map(mode => (
               <button
                 key={mode}
                 onClick={() => setViewMode(mode)}
@@ -169,7 +187,7 @@ export default function DashboardPage() {
                     : 'border border-gray-300 text-gray-600 hover:bg-gray-50'
                 }`}
               >
-                {mode === 'list' ? '📋 一覧' : '📈 グラフ'}
+                {mode === 'list' ? '📋 一覧' : mode === 'chart' ? '📈 グラフ' : '💬 感想'}
               </button>
             ))}
           </div>
@@ -199,13 +217,59 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {loading ? (
+        {/* 感想タブ（アンケートデータに依存しない） */}
+        {viewMode === 'feedback' && (
+          <div>
+            {(() => {
+              const filteredFeedbacks = selectedChild
+                ? feedbacks.filter(f => f.child_name === selectedChild)
+                : feedbacks
+              const groupedByChild: Record<string, Feedback[]> = {}
+              filteredFeedbacks.forEach(f => {
+                if (!groupedByChild[f.child_name]) groupedByChild[f.child_name] = []
+                groupedByChild[f.child_name].push(f)
+              })
+              const childOrder = Object.keys(groupedByChild).sort()
+              return childOrder.length === 0 ? (
+                <div className="text-center py-16 text-gray-400">感想がまだありません</div>
+              ) : (
+                <div className="space-y-5">
+                  {childOrder.map(name => (
+                    <div key={name} className="bg-white rounded-2xl shadow-sm p-5">
+                      <h3 className="font-bold text-gray-800 text-base mb-3">{name}</h3>
+                      <div className="space-y-3">
+                        {groupedByChild[name]
+                          .sort((a, b) => a.month.localeCompare(b.month))
+                          .map(f => {
+                            const [year, mm] = f.month.split('-')
+                            return (
+                              <div key={f.id} className="border-l-4 border-amber-300 pl-4 py-1">
+                                <p className="text-xs text-amber-600 font-medium mb-1">
+                                  {year}年{parseInt(mm)}月
+                                </p>
+                                <p className="text-sm text-gray-700 whitespace-pre-wrap">{f.content}</p>
+                                <p className="text-xs text-gray-300 mt-1">
+                                  {new Date(f.submitted_at).toLocaleDateString('ja-JP')}
+                                </p>
+                              </div>
+                            )
+                          })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )
+            })()}
+          </div>
+        )}
+
+        {viewMode !== 'feedback' && loading ? (
           <div className="text-center py-16 text-gray-400">読み込み中...</div>
-        ) : filteredResponses.length === 0 ? (
+        ) : viewMode !== 'feedback' && filteredResponses.length === 0 ? (
           <div className="text-center py-16 text-gray-400">回答がまだありません</div>
-        ) : (
+        ) : viewMode !== 'feedback' ? (
           <>
-            {/* 一覧表示 */}
+            {/* 一覧・詳細・グラフ表示 */}
             {viewMode === 'list' && (
               <div className="space-y-4">
                 {sortedResponses(filteredResponses).map(r => (
@@ -369,7 +433,7 @@ export default function DashboardPage() {
               </div>
             )}
           </>
-        )}
+        ) : null}
       </div>
     </div>
   )
