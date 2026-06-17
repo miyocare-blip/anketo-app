@@ -34,6 +34,7 @@ interface Feedback {
   child_name: string
   month: string
   content: string
+  respondent_type: string
   submitted_at: string
 }
 
@@ -243,9 +244,9 @@ export default function DashboardPage() {
                           .map(f => {
                             const [year, mm] = f.month.split('-')
                             return (
-                              <div key={f.id} className="border-l-4 border-amber-300 pl-4 py-1">
-                                <p className="text-xs text-amber-600 font-medium mb-1">
-                                  {year}年{parseInt(mm)}月
+                              <div key={f.id} className={`border-l-4 pl-4 py-1 ${f.respondent_type === 'staff' ? 'border-orange-300' : 'border-purple-300'}`}>
+                                <p className={`text-xs font-medium mb-1 ${f.respondent_type === 'staff' ? 'text-orange-600' : 'text-purple-600'}`}>
+                                  {year}年{parseInt(mm)}月　{f.respondent_type === 'staff' ? '施設スタッフ' : '保護者'}
                                 </p>
                                 <p className="text-sm text-gray-700 whitespace-pre-wrap">{f.content}</p>
                                 <p className="text-xs text-gray-300 mt-1">

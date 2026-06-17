@@ -33,7 +33,8 @@ async function sendFeedbackEmail(childName: string, month: string, content: stri
 
 export async function POST(req: NextRequest) {
   try {
-    const { child_name, content } = await req.json()
+    const body = await req.json()
+    const { child_name, content } = body
 
     if (!child_name?.trim()) {
       return NextResponse.json({ error: 'お名前は必須です' }, { status: 400 })
@@ -43,12 +44,13 @@ export async function POST(req: NextRequest) {
     }
 
     const normalizedName = child_name.trim().replace(/[\s　]+/g, '')
+    const respondent_type = body.respondent_type === 'staff' ? 'staff' : 'parent'
     const now = new Date()
     const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`
 
     const { error } = await supabaseAdmin
       .from('feedback')
-      .insert({ child_name: normalizedName, month, content: content.trim() })
+      .insert({ child_name: normalizedName, month, content: content.trim(), respondent_type })
 
     if (error) {
       console.error('DB error:', error)
