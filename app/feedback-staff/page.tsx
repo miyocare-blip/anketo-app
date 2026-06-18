@@ -57,7 +57,7 @@ export default function FeedbackStaffPage() {
   return (
     <div className="min-h-screen bg-orange-50">
       <div className="bg-orange-200 text-orange-900 px-4 py-5 sticky top-0 z-10 shadow-sm">
-        <h1 className="text-lg font-bold text-center">スタッフ感想フォーム</h1>
+        <h1 className="text-lg font-bold text-center">施設スタッフ様感想フォーム</h1>
       </div>
       <div className="max-w-lg mx-auto px-4 py-6">
         <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">

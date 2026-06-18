@@ -56,7 +56,7 @@ export default function FeedbackPage() {
   return (
     <div className="min-h-screen bg-purple-50">
       <div className="bg-purple-200 text-purple-900 px-4 py-5 sticky top-0 z-10 shadow-sm">
-        <h1 className="text-lg font-bold text-center">保護者感想フォーム</h1>
+        <h1 className="text-lg font-bold text-center">保護者様感想フォーム</h1>
       </div>
       <div className="max-w-lg mx-auto px-4 py-6">
         <div className="bg-white rounded-2xl shadow-sm p-5 mb-4">

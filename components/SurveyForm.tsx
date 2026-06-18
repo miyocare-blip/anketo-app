@@ -32,7 +32,7 @@ export default function SurveyForm({ respondentType }: Props) {
       inputFocus: 'focus:border-sky-300 focus:ring-2 focus:ring-sky-100',
       btnPrimary: 'bg-sky-400 hover:bg-sky-500',
       btnText: 'text-white',
-      title: '施設スタッフアンケート',
+      title: '施設スタッフ様アンケート',
     },
     parent: {
       headerBg: 'bg-pink-300',
@@ -46,7 +46,7 @@ export default function SurveyForm({ respondentType }: Props) {
       inputFocus: 'focus:border-pink-300 focus:ring-2 focus:ring-pink-100',
       btnPrimary: 'bg-pink-300 hover:bg-pink-400',
       btnText: 'text-white',
-      title: '保護者アンケート',
+      title: '保護者様アンケート',
     },
     child: {
       headerBg: 'bg-emerald-100',
