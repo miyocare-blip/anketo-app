@@ -246,7 +246,7 @@ export default function DashboardPage() {
                             return (
                               <div key={f.id} className={`border-l-4 pl-4 py-1 ${f.respondent_type === 'staff' ? 'border-orange-300' : 'border-purple-300'}`}>
                                 <p className={`text-xs font-medium mb-1 ${f.respondent_type === 'staff' ? 'text-orange-600' : 'text-purple-600'}`}>
-                                  {year}年{parseInt(mm)}月　{f.respondent_type === 'staff' ? '施設スタッフ' : '保護者'}
+                                  {year}年{parseInt(mm)}月　{f.respondent_type === 'staff' ? '施設' : '保護者'}
                                 </p>
                                 <p className="text-sm text-gray-700 whitespace-pre-wrap">{f.content}</p>
                                 <p className="text-xs text-gray-300 mt-1">
@@ -334,7 +334,7 @@ export default function DashboardPage() {
                     <h3 className="font-bold text-gray-800 text-base mb-1">{r.child_name}</h3>
                     <p className="text-xs text-gray-400 mb-4">
                       {formatMonthLabel(r.month)}
-                      {' · '}<span className={r.respondent_type === 'staff' ? 'text-sky-500' : r.respondent_type === 'child' ? 'text-emerald-600' : 'text-pink-400'}>{r.respondent_type === 'staff' ? '施設スタッフ' : r.respondent_type === 'child' ? '指紋' : '保護者'}</span>
+                      {' · '}<span className={r.respondent_type === 'staff' ? 'text-sky-500' : r.respondent_type === 'child' ? 'text-emerald-600' : 'text-pink-400'}>{r.respondent_type === 'staff' ? '施設' : r.respondent_type === 'child' ? '指紋' : '保護者'}</span>
                     </p>
 
                     <div className="space-y-4 text-sm">
