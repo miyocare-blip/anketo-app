@@ -338,6 +338,12 @@ export default function DashboardPage() {
                     </p>
 
                     <div className="space-y-4 text-sm">
+                      {(r.child_age || r.child_grade) && (
+                        <div className="flex gap-4">
+                          {r.child_age && <div><span className="font-medium text-gray-600">年齢：</span>{r.child_age}歳</div>}
+                          {r.child_grade && <div><span className="font-medium text-gray-600">学年：</span>{r.child_grade}</div>}
+                        </div>
+                      )}
                       {r.diagnosis && (
                         <div><span className="font-medium text-gray-600">診断名：</span>{r.diagnosis}</div>
                       )}
