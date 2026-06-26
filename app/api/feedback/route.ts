@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import nodemailer from 'nodemailer'
-import { cookies } from 'next/headers'
 
 async function sendFeedbackEmail(childName: string, month: string, content: string) {
   const notifyEmails = process.env.NOTIFY_EMAILS?.split(',').map(e => e.trim()) ?? []
@@ -71,12 +70,6 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const cookieStore = await cookies()
-  const session = cookieStore.get('admin_session')
-  if (session?.value !== 'authenticated') {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
-
   const { searchParams } = new URL(req.url)
   const childName = searchParams.get('child_name')
 
