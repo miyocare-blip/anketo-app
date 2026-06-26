@@ -55,7 +55,7 @@ export default function DashboardPage() {
       return
     }
     const data = await res.json()
-    setResponses(data)
+    setResponses(Array.isArray(data) ? data : [])
     setLoading(false)
   }, [router])
 
@@ -63,7 +63,7 @@ export default function DashboardPage() {
     const res = await fetch('/api/feedback')
     if (res.ok) {
       const data = await res.json()
-      setFeedbacks(data)
+      setFeedbacks(Array.isArray(data) ? data : [])
     }
   }, [])
 
