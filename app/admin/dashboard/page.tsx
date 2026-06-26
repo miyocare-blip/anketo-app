@@ -334,6 +334,7 @@ export default function DashboardPage() {
                     <h3 className="font-bold text-gray-800 text-base mb-1">{r.child_name}</h3>
                     <p className="text-xs text-gray-400 mb-4">
                       {formatMonthLabel(r.month)}
+                      {' · '}<span className={r.respondent_type === 'staff' ? 'text-sky-500' : r.respondent_type === 'child' ? 'text-emerald-600' : 'text-pink-400'}>{r.respondent_type === 'staff' ? '施設スタッフ様' : r.respondent_type === 'child' ? '指紋' : '保護者様'}</span>
                     </p>
 
                     <div className="space-y-4 text-sm">
